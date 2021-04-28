@@ -7,7 +7,7 @@ from os.path import join, isfile, isdir
 from collections import OrderedDict, namedtuple
 from types import FunctionType
 import xarray
-from typing import Union, List, OrderedDict
+from typing import Union, List, Dict
 
 from . import weather as rk_weather
 
@@ -546,7 +546,7 @@ class WorkflowQueue():
         """
         self.queue[key] = kwargs
 
-    def execute(self, jobs: int = 1) -> OrderedDict[str, xarray.Dataset]:
+    def execute(self, jobs: int = 1) -> Dict[str, xarray.Dataset]:
         """Executes all of the simulation sets that are currently in the queue
 
         Parameters
@@ -566,7 +566,7 @@ class WorkflowQueue():
             from multiprocessing import Pool
             pool = Pool(jobs)
 
-        results = OrderedDict()
+        results : OrderedDict[str, xarray.Dataset] = OrderedDict()
         for key, kwargs in self.queue.items():
             k = self.constants.copy()
             k.update(kwargs)
